@@ -1,0 +1,8 @@
+.env
+__pycache__/
+*.bat
+linkedin_posts.csv
+add_cashflow_posts.py
+add_logistics_posts.py
+setup_gumroad.py
+setup_stripe.py
