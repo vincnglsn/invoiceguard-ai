@@ -1,0 +1,13 @@
+numero_facture,client,montant,date_emission,date_echeance,statut,email_client,telephone
+INV-2026-001,Dupont & Associés SARL,4500.00,2026-08-01,2026-09-01,En retard,contact@dupont-assoc.fr,0612345678
+INV-2026-002,TechSolutions SAS,12800.00,2026-08-15,2026-09-15,En retard,daf@techsolutions.fr,0698765432
+INV-2026-003,Boulangerie Martin,850.00,2026-09-01,2026-10-01,En attente,martin.boulangerie@gmail.com,0655443322
+INV-2026-004,Cabinet Leblanc Conseil,6200.00,2026-07-15,2026-08-15,En retard,p.leblanc@cabinet-leblanc.fr,0678901234
+INV-2026-005,Logistics Express SARL,3350.00,2026-09-10,2026-10-10,En attente,compta@logisticsexpress.fr,0634567890
+INV-2026-006,Imprimerie Centrale,1200.00,2026-08-20,2026-09-20,En retard,direction@imprimerie-centrale.fr,0645678901
+INV-2026-007,Groupe Immobilier Sud,22000.00,2026-08-01,2026-09-01,En retard,comptabilite@gis.fr,0656789012
+INV-2026-008,BTP Renov & Co,8700.00,2026-09-05,2026-10-05,En attente,admin@btprenov.fr,0667890123
+INV-2026-009,Optique Vision Pro,2100.00,2026-09-01,2026-09-30,En attente,contact@optiquevision.fr,0678901234
+INV-2026-010,Restaurant Le Gourmet,1750.00,2026-09-15,2026-10-15,En attente,legourmet.resto@gmail.com,0689012345
+INV-2026-011,Agence Com'Plus,5400.00,2026-07-20,2026-08-20,En retard,direction@complus-agence.fr,0690123456
+INV-2026-012,Pharmacie Centrale,3900.00,2026-08-25,2026-09-25,En retard,pharmacie.centrale@orange.fr,0601234567
