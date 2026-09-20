@@ -76,15 +76,20 @@ jobs:
       TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
     steps:
       - name: Notification Telegram
-        if: env.TELEGRAM_TOKEN != ''
+        if: env.TELEGRAM_TOKEN != '' && env.TELEGRAM_CHAT_ID != ''
+        env:
+          COMMIT_SHA: ${{ github.sha }}
+          BRANCH:     ${{ github.ref_name }}
+          ACTOR:      ${{ github.actor }}
         run: |
-          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
-            -H "Content-Type: application/json" \
-            -d "{
-              \"chat_id\": \"${TELEGRAM_CHAT_ID}\",
-              \"text\": \"InvoiceGuard AI deploye avec succes\n\nCommit: ${{ github.sha }}\nBranch: ${{ github.ref_name }}\nAuteur: ${{ github.actor }}\n\nhttps://github.com/vincnglsn/invoiceguard-ai\",
-              \"parse_mode\": \"HTML\"
-            }"
+          TEXT=$(printf 'InvoiceGuard AI deploye avec succes\n\nCommit: %s\nBranch: %s\nAuteur: %s\n\nhttps://github.com/vincnglsn/invoiceguard-ai' \
+            "$COMMIT_SHA" "$BRANCH" "$ACTOR")
+          jq -n --arg chat "$TELEGRAM_CHAT_ID" --arg text "$TEXT" \
+            '{chat_id: $chat, text: $text, parse_mode: "HTML"}' \
+          | curl -sS --fail-with-body -X POST \
+              "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
+              -H "Content-Type: application/json" \
+              --data @-
           echo "Notification Telegram envoyee"
 
       - name: Resume deploiement
