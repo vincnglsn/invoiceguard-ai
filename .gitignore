@@ -1,6 +1,7 @@
 # Secrets et configuration locale
 .env
 stripe_config.json
+.streamlit/secrets.toml
 
 # Environnements virtuels
 venv/
