@@ -3,13 +3,13 @@
 > **Récupérez automatiquement vos factures impayées grâce à l'IA**  
 > SaaS B2B pour PME françaises · Conforme Loi LME & RGPD · Made in France 🇫🇷
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://invoiceguard-ai.streamlit.app)
-
 ---
 
-## 📊 Démo live
+## 📊 Démo
 
-**→ [invoiceguard-ai.streamlit.app](https://invoiceguard-ai.streamlit.app)**
+Aucune démo hébergée pour le moment — le déploiement public est en cours de
+configuration. En attendant, l'application se lance en local en 5 minutes
+(voir la section **Installation locale** ci-dessous).
 
 ---
 
