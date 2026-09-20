@@ -184,49 +184,50 @@ def lancer_campagne(
     log_path = f"campagne_{template}_{datetime.now().strftime('%Y%m%d_%H%M')}.log"
     envoyes, erreurs = 0, 0
 
-    print(f"\n{'='*60}")
-    print(f"  InvoiceGuard AI — Campagne '{template.upper()}'")
-    print(f"  Mode : {'DÉMONSTRATION' if mode_demo else 'PRODUCTION'}")
+    sep = "=" * 60
+    print(f"\n{sep}")
+    print(f"  InvoiceGuard AI - Campagne '{template.upper()}'")
+    print(f"  Mode : {'DEMO' if mode_demo else 'PRODUCTION'}")
     print(f"  Liste : {liste_csv}")
-    print(f"  Délai inter-email : {delai_secondes}s | Max : {max_emails}")
-    print(f"{'='*60}\n")
+    print(f"  Delai inter-email : {delai_secondes}s | Max : {max_emails}")
+    print(f"{sep}\n")
 
     with open(liste_csv, "r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         contacts = list(reader)
 
     total = min(len(contacts), max_emails)
-    print(f"📧 {total} contacts à contacter\n")
+    print(f"[INFO] {total} contacts a contacter\n")
 
     for i, contact in enumerate(contacts[:max_emails]):
         email = contact.get("email", "").strip()
         if not email or "@" not in email:
-            print(f"  [{i+1}/{total}] ⏭  Email invalide : '{email}' — ignoré")
+            print(f"  [{i+1}/{total}] SKIP Email invalide : '{email}'")
             continue
 
         sujet, corps = personnaliser(template, contact)
         result = envoyer_email_smtp(email, sujet, corps, gmail_user, gmail_password, mode_demo=mode_demo)
         log_campagne({**result, "sujet": sujet, "contact": contact}, log_path)
 
-        icone = "✅" if result["success"] else "❌"
+        icone = "OK " if result["success"] else "ERR"
         mode_txt = " [DEMO]" if mode_demo else ""
-        print(f"  [{i+1}/{total}] {icone}{mode_txt} {email} — {contact.get('prenom','')} {contact.get('societe','')}")
+        print(f"  [{i+1}/{total}] {icone}{mode_txt} {email} -- {contact.get('prenom','')} {contact.get('societe','')}")
 
         if result["success"]:
             envoyes += 1
         else:
             erreurs += 1
-            print(f"     → Erreur : {result.get('error','?')}")
+            print(f"     Erreur : {result.get('error','?')}")
 
         if i < total - 1 and not mode_demo:
-            print(f"     ⏱  Pause {delai_secondes}s...")
+            print(f"     Pause {delai_secondes}s...")
             time.sleep(delai_secondes)
 
-    print(f"\n{'='*60}")
-    print(f"  ✅ Campagne terminée")
-    print(f"  Envoyés : {envoyes} | Erreurs : {erreurs}")
+    print(f"\n{sep}")
+    print(f"  Campagne terminee")
+    print(f"  Envoyes : {envoyes} | Erreurs : {erreurs}")
     print(f"  Log : {log_path}")
-    print(f"{'='*60}\n")
+    print(f"{sep}\n")
 
 
 if __name__ == "__main__":

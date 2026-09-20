@@ -1,5 +1,30 @@
+# Secrets et configuration locale
 .env
+stripe_config.json
+
+# Environnements virtuels
+venv/
+.venv/
+env/
+
+# Python
 __pycache__/
+*.pyc
+
+# Donnees clients et prospects (RGPD - jamais sur un depot public)
+data/
+*.db
+prospects_pme.csv
+leads.csv
+
+# Logs
+*.log
+
+# Fichiers de travail temporaires (medias)
+temp_work/
+temp_videos/
+
+# Scripts locaux
 *.bat
 linkedin_posts.csv
 add_cashflow_posts.py
