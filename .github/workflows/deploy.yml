@@ -82,12 +82,29 @@ jobs:
           BRANCH:     ${{ github.ref_name }}
           ACTOR:      ${{ github.actor }}
         run: |
+          # Les secrets collent souvent un retour a la ligne ou une espace :
+          # un seul caractere de controle suffit a rendre l'URL invalide.
+          TOKEN=$(printf '%s' "$TELEGRAM_TOKEN"   | tr -d '[:space:]')
+          CHAT=$(printf  '%s' "$TELEGRAM_CHAT_ID" | tr -d '[:space:]')
+
+          if ! printf '%s' "$TOKEN" | grep -qE '^[0-9]+:[A-Za-z0-9_-]+$'; then
+            echo "Le secret TELEGRAM_TOKEN est mal forme."
+            echo "Format attendu : <id_du_bot>:<cle>  (ex: 1234567890:AAH...)"
+            echo "Longueur recue apres nettoyage : ${#TOKEN} caracteres"
+            exit 1
+          fi
+          if ! printf '%s' "$CHAT" | grep -qE '^-?[0-9]+$'; then
+            echo "Le secret TELEGRAM_CHAT_ID est mal forme (attendu : un entier)."
+            echo "Longueur recue apres nettoyage : ${#CHAT} caracteres"
+            exit 1
+          fi
+
           TEXT=$(printf 'InvoiceGuard AI deploye avec succes\n\nCommit: %s\nBranch: %s\nAuteur: %s\n\nhttps://github.com/vincnglsn/invoiceguard-ai' \
             "$COMMIT_SHA" "$BRANCH" "$ACTOR")
-          jq -n --arg chat "$TELEGRAM_CHAT_ID" --arg text "$TEXT" \
+          jq -n --arg chat "$CHAT" --arg text "$TEXT" \
             '{chat_id: $chat, text: $text, parse_mode: "HTML"}' \
           | curl -sS --fail-with-body -X POST \
-              "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
+              "https://api.telegram.org/bot${TOKEN}/sendMessage" \
               -H "Content-Type: application/json" \
               --data @-
           echo "Notification Telegram envoyee"
