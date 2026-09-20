@@ -34,7 +34,11 @@ jobs:
           python -m py_compile modules/campaign.py
           python -m py_compile modules/email_sender.py
           python -m py_compile webhook_stripe.py
+          python -m py_compile ig_navigation.py
           python -m py_compile invoiceguard_legal.py
+          python -m py_compile invoiceguard_onboarding.py
+          python -m py_compile invoiceguard_pricing.py
+          python -m py_compile invoiceguard_guide.py
           echo "Tous les modules Python sont valides"
 
       - name: Test imports modules critiques
@@ -53,6 +57,36 @@ jobs:
           assert stats['total_users'] >= 1
           print('Base de donnees SQLite : OK')
           "
+
+      - name: Test navigation multipage
+        run: |
+          python -c "
+          import ast
+          src = open('streamlit_app.py', encoding='utf-8').read()
+          arbre = ast.parse(src)
+          pages = [n.args[0].value for n in ast.walk(arbre)
+                   if isinstance(n, ast.Call)
+                   and getattr(n.func, 'attr', '') == 'Page'
+                   and n.args and isinstance(n.args[0], ast.Constant)]
+          attendues = [
+              'invoiceguard_app.py', 'invoiceguard_onboarding.py',
+              'invoiceguard_pricing.py', 'invoiceguard_guide.py',
+              'invoiceguard_legal.py',
+          ]
+          assert pages == attendues, f'Pages declarees : {pages}'
+          import os
+          for p in pages:
+              assert os.path.exists(p), f'Page manquante sur le disque : {p}'
+          # Les outils internes ne doivent pas etre exposes publiquement
+          for interne in ('invoiceguard_fondateur.py', 'invoiceguard_prospecteur.py'):
+              assert interne not in src, f'Outil interne expose : {interne}'
+          print(f'Navigation multipage : {len(pages)} pages publiques OK')
+          "
+
+      - name: Verifier absence de liens localhost dans les pages publiques
+        run: |
+          ! grep -n "localhost:8" invoiceguard_guide.py invoiceguard_pricing.py invoiceguard_legal.py
+          echo "Aucun lien localhost dans les pages publiques"
 
       - name: Test chargement donnees demo
         run: |

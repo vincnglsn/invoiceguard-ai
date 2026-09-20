@@ -14,6 +14,8 @@ if not os.environ.get("GEMINI_API_KEY"):
 
 sys.path.insert(0, os.path.dirname(__file__))
 
+from ig_navigation import lien_page
+
 st.set_page_config(
     page_title="Guide Recouvrement PME — InvoiceGuard",
     page_icon="📘",
@@ -207,10 +209,11 @@ Longueur : environ 2000 mots, très pratique et actionnable."""
             st.error(f"Erreur génération : {e}")
 
 st.divider()
+lien_page("invoiceguard_app.py", "Essai gratuit 14 jours — ouvrir l'application",
+          icon="🛡️", primary=True)
 st.markdown("""
 <div style='text-align:center;color:#6B7280;font-size:.85rem'>
 🛡️ <strong>InvoiceGuard AI</strong> · 
-<a href='http://localhost:8502' style='color:#00D4AA'>Essai gratuit 14 jours</a> · 
 <a href='mailto:hello@invoiceguard.fr' style='color:#00D4AA'>Contact</a>
 </div>
 """, unsafe_allow_html=True)

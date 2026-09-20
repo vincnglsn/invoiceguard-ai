@@ -1,24 +1,47 @@
 """
-InvoiceGuard AI — Point d'entrée Streamlit Cloud
-Redirige vers l'app principale (requis pour Streamlit Community Cloud).
+InvoiceGuard AI -- Point d'entree Streamlit Cloud.
+
+Declare l'application multipage : c'est ce fichier que Streamlit Cloud execute
+(nom canonique). Chaque page reste un script autonome, lancable seul en local
+via `streamlit run <script>.py`.
+
+Les outils internes (dashboard fondateur, prospecteur, espace partenaire) ne
+sont volontairement PAS declares ici : ils restent accessibles uniquement en
+local, car le depot est public.
 """
-# Ce fichier s'appelle streamlit_app.py (nom canonique pour Streamlit Cloud).
-# Il importe et exécute l'app principale.
 
-import sys
 import os
+import sys
 
-# S'assure que les modules locaux sont trouvables
-sys.path.insert(0, os.path.dirname(__file__))
+# S'assure que les modules locaux sont trouvables depuis n'importe quelle page
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-# Utilise st.secrets si déployé sur Streamlit Cloud
 import streamlit as st
 
-# Inject GEMINI_API_KEY depuis st.secrets si disponible (Streamlit Cloud)
-if "GEMINI_API_KEY" in st.secrets:
-    os.environ["GEMINI_API_KEY"] = st.secrets["GEMINI_API_KEY"]
-if "RESEND_API_KEY" in st.secrets:
-    os.environ["RESEND_API_KEY"] = st.secrets["RESEND_API_KEY"]
+# ─── Secrets Streamlit Cloud -> variables d'environnement ────────────────────
+for _cle in ("GEMINI_API_KEY", "RESEND_API_KEY", "FOUNDER_PASSWORD"):
+    try:
+        if _cle in st.secrets:
+            os.environ[_cle] = str(st.secrets[_cle])
+    except Exception:
+        # Pas de fichier secrets.toml en local : on se rabat sur .env
+        break
 
-# Lance l'app principale
-exec(open(os.path.join(os.path.dirname(__file__), "invoiceguard_app.py")).read())
+# ─── Configuration globale ───────────────────────────────────────────────────
+st.set_page_config(
+    page_title="InvoiceGuard AI",
+    page_icon="🛡️",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
+# ─── Pages publiques ─────────────────────────────────────────────────────────
+PAGES = [
+    st.Page("invoiceguard_app.py", title="Application", icon="🛡️", default=True),
+    st.Page("invoiceguard_onboarding.py", title="Démarrage guidé", icon="🚀"),
+    st.Page("invoiceguard_pricing.py", title="Tarifs", icon="💳"),
+    st.Page("invoiceguard_guide.py", title="Guide gratuit", icon="📘"),
+    st.Page("invoiceguard_legal.py", title="Mentions légales", icon="⚖️"),
+]
+
+st.navigation(PAGES).run()

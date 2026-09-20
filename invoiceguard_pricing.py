@@ -5,6 +5,10 @@ Interface pour choisir un plan et être redirigé vers le paiement Stripe.
 
 import streamlit as st
 import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from ig_navigation import lien_page
 
 st.set_page_config(
     page_title="InvoiceGuard AI — Choisir un plan",
@@ -164,3 +168,8 @@ with col_cta2:
                    use_container_width=True)
 
 st.caption("🔒 Paiement sécurisé par Stripe · Données hébergées en France · RGPD")
+
+st.divider()
+lien_page("invoiceguard_legal.py", "Conditions générales de vente & mentions légales",
+          icon="⚖️")
+

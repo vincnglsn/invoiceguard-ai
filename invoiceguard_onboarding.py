@@ -14,6 +14,8 @@ if not os.environ.get("GEMINI_API_KEY"):
 
 sys.path.insert(0, os.path.dirname(__file__))
 
+from ig_navigation import aller_vers
+
 st.set_page_config(
     page_title="Demarrage — InvoiceGuard AI",
     page_icon="🛡️",
@@ -274,12 +276,10 @@ elif step == 4:
     col_a, col_b = st.columns(2)
     with col_a:
         if st.button("Ouvrir le dashboard principal", type="primary", use_container_width=True):
-            import webbrowser
-            webbrowser.open("http://localhost:8502")
+            aller_vers("invoiceguard_app.py")
     with col_b:
         if st.button("Voir les fonctionnalites Pro", use_container_width=True):
-            import webbrowser
-            webbrowser.open("http://localhost:8507")
+            aller_vers("invoiceguard_pricing.py")
 
     # Envoie l'email de bienvenue
     email = st.session_state.get("email", "")
