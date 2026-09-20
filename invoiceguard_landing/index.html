@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InvoiceGuard AI — Récupérez vos impayés automatiquement</title>
+<meta name="description" content="L'IA qui récupère vos factures impayées automatiquement. Conforme Loi LME. 14 jours gratuits.">
+<style>
+  :root {
+    --primary: #00D4AA;
+    --primary-dark: #00B090;
+    --bg: #0A0F1E;
+    --bg2: #111827;
+    --bg3: #1F2937;
+    --text: #F9FAFB;
+    --muted: #9CA3AF;
+    --danger: #EF4444;
+    --warning: #F59E0B;
+    --border: #374151;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  a { color: var(--primary); text-decoration: none; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,15,30,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: .9rem 2rem; display: flex; justify-content: space-between; align-items: center;
+  }
+  .logo { font-size: 1.2rem; font-weight: 800; color: var(--primary); }
+  .logo span { color: var(--text); }
+  nav .cta-nav {
+    background: var(--primary); color: #000; font-weight: 700;
+    padding: .5rem 1.4rem; border-radius: 8px; font-size: .9rem;
+    transition: background .2s;
+  }
+  nav .cta-nav:hover { background: var(--primary-dark); }
+
+  /* ── HERO ── */
+  .hero {
+    max-width: 900px; margin: 0 auto; padding: 6rem 2rem 4rem;
+    text-align: center;
+  }
+  .urgency-banner {
+    background: linear-gradient(135deg, #7C3AED22, #00D4AA22);
+    border: 1px solid var(--primary); border-radius: 99px;
+    padding: .4rem 1.4rem; font-size: .85rem; color: var(--primary);
+    font-weight: 600; display: inline-block; margin-bottom: 1.5rem;
+  }
+  h1 { font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 900; line-height: 1.15; margin-bottom: 1.2rem; }
+  h1 em { color: var(--primary); font-style: normal; }
+  .hero-sub { font-size: 1.15rem; color: var(--muted); max-width: 620px; margin: 0 auto 2.5rem; }
+  .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--primary); color: #000; font-weight: 800;
+    padding: .85rem 2.2rem; border-radius: 10px; font-size: 1.05rem;
+    display: inline-block; transition: all .2s; border: none; cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent; color: var(--text); font-weight: 600;
+    padding: .85rem 2.2rem; border-radius: 10px; font-size: 1rem;
+    border: 1px solid var(--border); display: inline-block; transition: all .2s; cursor: pointer;
+  }
+  .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+  .hero-trust { margin-top: 1.5rem; font-size: .82rem; color: var(--muted); }
+
+  /* ── STATS ── */
+  .stats-bar {
+    background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    padding: 2rem;
+  }
+  .stats-grid { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem; text-align: center; }
+  .stat-val { font-size: 2rem; font-weight: 900; color: var(--primary); }
+  .stat-label { font-size: .85rem; color: var(--muted); margin-top: .2rem; }
+
+  /* ── ROI CALCULATOR ── */
+  .calculator-section {
+    max-width: 860px; margin: 5rem auto; padding: 0 2rem;
+  }
+  .section-tag { color: var(--primary); font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; margin-bottom: .6rem; }
+  .section-title { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; margin-bottom: .8rem; }
+  .section-sub { color: var(--muted); margin-bottom: 2rem; }
+  .calc-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
+    padding: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+  }
+  @media (max-width: 640px) { .calc-card { grid-template-columns: 1fr; } }
+  .calc-inputs h3 { font-size: 1rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--muted); text-transform: uppercase; font-size: .8rem; letter-spacing: .05em; }
+  label { display: block; font-size: .85rem; color: var(--muted); margin-bottom: .4rem; margin-top: 1.2rem; }
+  input[type=range] { width: 100%; accent-color: var(--primary); }
+  .val-display { color: var(--primary); font-weight: 700; font-size: 1rem; }
+  .calc-results { background: var(--bg3); border-radius: 12px; padding: 1.8rem; display: flex; flex-direction: column; gap: 1.2rem; }
+  .result-row { display: flex; justify-content: space-between; align-items: center; padding-bottom: .8rem; border-bottom: 1px solid var(--border); }
+  .result-row:last-child { border-bottom: none; }
+  .result-label { font-size: .85rem; color: var(--muted); }
+  .result-val { font-weight: 800; font-size: 1.1rem; }
+  .result-val.green { color: var(--primary); font-size: 1.4rem; }
+  .result-val.red { color: var(--danger); }
+  .calc-cta { margin-top: 1.5rem; text-align: center; }
+
+  /* ── LEAD CAPTURE ── */
+  .lead-form {
+    background: linear-gradient(135deg, rgba(0,212,170,.08), rgba(124,58,237,.08));
+    border: 1px solid var(--primary); border-radius: 16px;
+    padding: 2.5rem; text-align: center; max-width: 600px; margin: 0 auto;
+  }
+  .lead-form h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: .6rem; }
+  .lead-form p { color: var(--muted); margin-bottom: 1.5rem; font-size: .9rem; }
+  .form-row { display: flex; gap: .8rem; margin-bottom: .8rem; }
+  @media(max-width:520px){.form-row{flex-direction:column;}}
+  input[type=text], input[type=email], input[type=number] {
+    flex: 1; background: var(--bg3); border: 1px solid var(--border); color: var(--text);
+    border-radius: 8px; padding: .75rem 1rem; font-size: .95rem;
+    transition: border-color .2s;
+  }
+  input:focus { outline: none; border-color: var(--primary); }
+  .form-submit {
+    width: 100%; background: var(--primary); color: #000; font-weight: 800;
+    padding: .9rem; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer;
+    transition: all .2s;
+  }
+  .form-submit:hover { background: var(--primary-dark); }
+  .form-ok { display: none; color: var(--primary); font-weight: 700; margin-top: 1rem; font-size: 1.1rem; }
+  .form-legal { font-size: .75rem; color: var(--muted); margin-top: .8rem; }
+
+  /* ── FEATURES ── */
+  .features-section { max-width: 1100px; margin: 5rem auto; padding: 0 2rem; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+  .feature-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 14px;
+    padding: 1.8rem; transition: border-color .2s;
+  }
+  .feature-card:hover { border-color: var(--primary); }
+  .feature-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .feature-title { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; }
+  .feature-desc { font-size: .875rem; color: var(--muted); }
+
+  /* ── HOW IT WORKS ── */
+  .how-section { max-width: 900px; margin: 5rem auto; padding: 0 2rem; text-align: center; }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 3rem; }
+  .step { text-align: center; }
+  .step-num {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), #7C3AED);
+    font-size: 1.2rem; font-weight: 900; display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1rem; color: #fff;
+  }
+  .step-title { font-weight: 700; margin-bottom: .4rem; }
+  .step-desc { font-size: .875rem; color: var(--muted); }
+
+  /* ── PRICING ── */
+  .pricing-section { max-width: 1000px; margin: 5rem auto; padding: 0 2rem; }
+  .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+  .plan-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
+    padding: 2rem; position: relative; transition: all .2s;
+  }
+  .plan-card.featured { border-color: var(--primary); background: linear-gradient(135deg, rgba(0,212,170,.06), var(--bg2)); }
+  .plan-badge {
+    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    background: var(--primary); color: #000; font-size: .75rem; font-weight: 800;
+    padding: .3rem .9rem; border-radius: 99px;
+  }
+  .plan-name { font-size: 1rem; font-weight: 700; color: var(--muted); margin-bottom: .5rem; }
+  .plan-price { font-size: 2.8rem; font-weight: 900; color: var(--text); }
+  .plan-price span { font-size: 1rem; font-weight: 400; color: var(--muted); }
+  .plan-desc { color: var(--muted); font-size: .85rem; margin: .6rem 0 1.5rem; }
+  .plan-features { list-style: none; margin-bottom: 2rem; }
+  .plan-features li { font-size: .875rem; padding: .4rem 0; border-bottom: 1px solid var(--border); }
+  .plan-features li::before { content: "✓ "; color: var(--primary); font-weight: 700; }
+  .plan-features li.no::before { content: "✗ "; color: var(--muted); }
+  .plan-features li.no { color: var(--muted); }
+  .plan-btn {
+    width: 100%; padding: .85rem; border-radius: 10px; font-weight: 700; font-size: .95rem;
+    cursor: pointer; transition: all .2s; border: none;
+  }
+  .plan-btn.primary { background: var(--primary); color: #000; }
+  .plan-btn.primary:hover { background: var(--primary-dark); }
+  .plan-btn.secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .plan-btn.secondary:hover { border-color: var(--primary); color: var(--primary); }
+
+  /* ── LEGAL ── */
+  .legal-section {
+    background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    padding: 3rem 2rem; margin: 5rem 0;
+  }
+  .legal-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 2rem; }
+  .legal-item { text-align: center; }
+  .legal-icon { font-size: 2rem; margin-bottom: .8rem; }
+  .legal-title { font-weight: 700; margin-bottom: .4rem; font-size: .95rem; }
+  .legal-desc { font-size: .8rem; color: var(--muted); }
+
+  /* ── FOOTER ── */
+  footer {
+    max-width: 1100px; margin: 0 auto; padding: 3rem 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--border); flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-logo { font-size: 1rem; font-weight: 800; color: var(--primary); }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { color: var(--muted); font-size: .85rem; }
+  .footer-links a:hover { color: var(--primary); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">🛡️ Invoice<span>Guard</span> AI</div>
+  <a href="http://localhost:8502" class="cta-nav" target="_blank">Essai gratuit 14j →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="urgency-banner">⚡ Facturation électronique obligatoire depuis sept. 2026</div>
+  <h1>Récupérez vos impayés <em>automatiquement</em> avec l'IA</h1>
+  <p class="hero-sub">
+    L'IA analyse vos factures, calcule le risque de chaque client et envoie la relance parfaite — 
+    au bon ton, au bon moment, conforme Loi LME.
+  </p>
+  <div class="hero-ctas">
+    <a href="http://localhost:8502" class="btn-primary" target="_blank">🚀 Essai gratuit 14 jours</a>
+    <button class="btn-secondary" onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})">Calculer mon ROI →</button>
+  </div>
+  <p class="hero-trust">✅ Sans carte bancaire &nbsp;·&nbsp; ✅ RGPD &nbsp;·&nbsp; ✅ Loi LME &nbsp;·&nbsp; 🇫🇷 Hébergé en France</p>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stats-grid">
+    <div><div class="stat-val">12 Mrd€</div><div class="stat-label">d'impayés dans les PME françaises</div></div>
+    <div><div class="stat-val">73%</div><div class="stat-label">taux de recouvrement moyen en 30j</div></div>
+    <div><div class="stat-val">-40%</div><div class="stat-label">de réduction du DSO en 60 jours</div></div>
+    <div><div class="stat-val">4 sec</div><div class="stat-label">pour générer une relance personnalisée</div></div>
+  </div>
+</div>
+
+<!-- ROI CALCULATOR -->
+<section class="calculator-section" id="calculator">
+  <div class="section-tag">Calculateur ROI</div>
+  <h2 class="section-title">Combien perdez-vous en ce moment ?</h2>
+  <p class="section-sub">Déplacez les curseurs — le résultat se met à jour en temps réel</p>
+
+  <div class="calc-card">
+    <div class="calc-inputs">
+      <h3>Vos données</h3>
+      <label>Chiffre d'affaires annuel : <span class="val-display" id="ca-val">500 000€</span></label>
+      <input type="range" id="ca" min="50000" max="5000000" step="50000" value="500000" oninput="updateCalc()">
+
+      <label>Taux d'impayés estimé : <span class="val-display" id="taux-val">4%</span></label>
+      <input type="range" id="taux" min="1" max="15" step="0.5" value="4" oninput="updateCalc()">
+
+      <label>Délai moyen de relance : <span class="val-display" id="delai-val">45 jours</span></label>
+      <input type="range" id="delai" min="0" max="120" step="5" value="45" oninput="updateCalc()">
+    </div>
+
+    <div class="calc-results">
+      <div style="font-size:.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem">Votre situation actuelle</div>
+      <div class="result-row">
+        <span class="result-label">Impayés estimés</span>
+        <span class="result-val red" id="r-impayes">20 000€</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Montant irrécupérable (sans outil)</span>
+        <span class="result-val red" id="r-perte">8 600€</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Pénalités LME non réclamées</span>
+        <span class="result-val red" id="r-penalites">520€</span>
+      </div>
+      <div style="height:1px;background:var(--border);margin:.5rem 0"></div>
+      <div style="font-size:.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem">Avec InvoiceGuard AI</div>
+      <div class="result-row">
+        <span class="result-label">Montant récupérable (73%)</span>
+        <span class="result-val green" id="r-recuperable">14 600€</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Abonnement Pro</span>
+        <span class="result-val">149€/mois</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">ROI premier mois</span>
+        <span class="result-val green" id="r-roi" style="font-size:2rem">97x</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="calc-cta">
+    <a href="http://localhost:8502" class="btn-primary" target="_blank" style="margin-top:1.5rem;display:inline-block">Récupérer mes impayés gratuitement →</a>
+  </div>
+</section>
+
+<!-- LEAD CAPTURE -->
+<section style="max-width:860px;margin:4rem auto;padding:0 2rem">
+  <div class="lead-form">
+    <h3>📥 Obtenez le Guide Gratuit</h3>
+    <p><strong>«&nbsp;Le Guide Complet du Recouvrement pour PME Françaises&nbsp;»</strong><br>
+    Loi LME, pénalités, modèles d'emails, procédures — 28 pages offertes</p>
+    <div class="form-row">
+      <input type="text" id="lead-nom" placeholder="Votre prénom">
+      <input type="email" id="lead-email" placeholder="votre@email.fr" required>
+    </div>
+    <div class="form-row">
+      <input type="text" id="lead-societe" placeholder="Votre entreprise">
+      <input type="number" id="lead-ca" placeholder="CA annuel €" min="0">
+    </div>
+    <button class="form-submit" onclick="submitLead()">📥 Recevoir le guide gratuit</button>
+    <div class="form-ok" id="form-ok">✅ Guide envoyé ! Vérifiez votre boîte mail.</div>
+    <p class="form-legal">🔒 Aucun spam. Données hébergées en France. RGPD.</p>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="section-tag">Fonctionnalités</div>
+  <h2 class="section-title">Tout ce dont vous avez besoin pour encaisser</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🤖</div>
+      <div class="feature-title">Relances IA personnalisées</div>
+      <div class="feature-desc">L'IA adapte le ton au profil du client — bienveillant pour les bons payeurs, ferme pour les mauvais. 4 secondes par email.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <div class="feature-title">Score de risque temps réel</div>
+      <div class="feature-desc">Chaque facture reçoit un score de 0 à 100. Vous savez instantanément quels dossiers sont urgents.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🚀</div>
+      <div class="feature-title">Campagnes en masse</div>
+      <div class="feature-desc">Lancez une relance sur l'ensemble de votre portefeuille en 1 clic. Séquençage automatique sur 21 jours.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚖️</div>
+      <div class="feature-title">Conformité Loi LME</div>
+      <div class="feature-desc">Pénalités de retard (BCE+10%), indemnité forfaitaire 40€, mise en demeure — tout est inclus automatiquement.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📄</div>
+      <div class="feature-title">Rapport PDF Expert-Comptable</div>
+      <div class="feature-desc">Un rapport mensuel professionnel à transmettre à votre EC ou DAF — DSO, provisions, prévisions.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📅</div>
+      <div class="feature-title">Prévision de trésorerie</div>
+      <div class="feature-desc">Visualisez vos encaissements prévisionnels sur 30, 60 et 90 jours. Planifiez en confiance.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section">
+  <div class="section-tag">Comment ça marche</div>
+  <h2 class="section-title">Opérationnel en 5 minutes</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-title">Importez vos factures</div>
+      <div class="step-desc">CSV universel — compatible Pennylane, Sage, Cegid, QuickBooks</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-title">L'IA analyse tout</div>
+      <div class="step-desc">Score de risque, priorisation, détection des patterns de mauvais payeurs</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-title">Relances générées</div>
+      <div class="step-desc">Email personnalisé en 4 sec — validez ou envoyez directement</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-title">Encaissez</div>
+      <div class="step-desc">73% des impayés récupérés en 30 jours en moyenne</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section">
+  <div class="section-tag" style="text-align:center">Tarifs</div>
+  <h2 class="section-title" style="text-align:center">Simple, transparent, sans surprise</h2>
+  <p style="text-align:center;color:var(--muted);margin-bottom:.5rem">+ 3% de commission sur les montants récupérés (pay-as-you-win)</p>
+  <p style="text-align:center;color:var(--primary);font-weight:700;margin-bottom:2rem">14 jours gratuits · Sans carte bancaire</p>
+  <div class="pricing-grid">
+    <div class="plan-card">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price">49€<span>/mois</span></div>
+      <div class="plan-desc">Pour les indépendants et TPE</div>
+      <ul class="plan-features">
+        <li>50 factures/mois</li>
+        <li>Relances email</li>
+        <li>Dashboard trésorerie</li>
+        <li>Score de risque</li>
+        <li class="no">SMS</li>
+        <li class="no">Campagnes en masse</li>
+        <li class="no">Rapport PDF</li>
+      </ul>
+      <button class="plan-btn secondary" onclick="window.open('http://localhost:8502','_blank')">Commencer</button>
+    </div>
+    <div class="plan-card featured">
+      <div class="plan-badge">⭐ Le plus populaire</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price">149€<span>/mois</span></div>
+      <div class="plan-desc">Pour les PME — le meilleur rapport qualité/prix</div>
+      <ul class="plan-features">
+        <li>Factures illimitées</li>
+        <li>Email + SMS</li>
+        <li>Campagnes en masse</li>
+        <li>Rapport PDF mensuel</li>
+        <li>Agent IA négociateur</li>
+        <li>Intégration Pennylane/Sage</li>
+        <li>Support prioritaire</li>
+      </ul>
+      <button class="plan-btn primary" onclick="window.open('http://localhost:8502','_blank')">Démarrer gratuitement</button>
+    </div>
+    <div class="plan-card">
+      <div class="plan-name">Scale</div>
+      <div class="plan-price">399€<span>/mois</span></div>
+      <div class="plan-desc">Pour les ETI et cabinets EC</div>
+      <ul class="plan-features">
+        <li>Tout le plan Pro</li>
+        <li>Multi-utilisateurs (5)</li>
+        <li>API complète</li>
+        <li>Espace partenaire EC</li>
+        <li>Dashboard CFO avancé</li>
+        <li>SLA 99.9%</li>
+        <li>Onboarding dédié</li>
+      </ul>
+      <button class="plan-btn secondary" onclick="window.open('http://localhost:8502','_blank')">Commencer</button>
+    </div>
+  </div>
+</section>
+
+<!-- LEGAL -->
+<div class="legal-section">
+  <div class="legal-grid">
+    <div class="legal-item">
+      <div class="legal-icon">⚖️</div>
+      <div class="legal-title">Conforme Loi LME</div>
+      <div class="legal-desc">Pénalités automatiques, indemnité 40€, délais légaux respectés</div>
+    </div>
+    <div class="legal-item">
+      <div class="legal-icon">🔒</div>
+      <div class="legal-title">RGPD</div>
+      <div class="legal-desc">Données hébergées en France, chiffrement AES-256, droit à l'oubli</div>
+    </div>
+    <div class="legal-item">
+      <div class="legal-icon">🧾</div>
+      <div class="legal-title">Facturation électronique</div>
+      <div class="legal-desc">Compatible avec l'obligation française depuis septembre 2026</div>
+    </div>
+    <div class="legal-item">
+      <div class="legal-icon">🛡️</div>
+      <div class="legal-title">Sécurité bancaire</div>
+      <div class="legal-desc">Paiements via Stripe · ISO 27001 · Disponibilité 99.9%</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">🛡️ InvoiceGuard AI</div>
+  <div class="footer-links">
+    <a href="http://localhost:8502" target="_blank">Application</a>
+    <a href="http://localhost:8507" target="_blank">Tarifs</a>
+    <a href="mailto:hello@invoiceguard.fr">Contact</a>
+    <a href="#">Mentions légales</a>
+    <a href="#">RGPD</a>
+  </div>
+  <div style="font-size:.8rem;color:var(--muted)">🇫🇷 Made in France · © 2026 InvoiceGuard AI</div>
+</footer>
+
+<script>
+function fmt(n){ return new Intl.NumberFormat('fr-FR').format(Math.round(n)) + '€'; }
+
+function updateCalc(){
+  const ca    = +document.getElementById('ca').value;
+  const taux  = +document.getElementById('taux').value / 100;
+  const delai = +document.getElementById('delai').value;
+
+  document.getElementById('ca-val').textContent    = fmt(ca);
+  document.getElementById('taux-val').textContent  = (+document.getElementById('taux').value) + '%';
+  document.getElementById('delai-val').textContent = delai + ' jours';
+
+  const impayes    = ca * taux;
+  const tauxRec    = delai <= 15 ? 0.92 : delai <= 30 ? 0.85 : delai <= 60 ? 0.72 : delai <= 90 ? 0.55 : 0.35;
+  const perte      = impayes * (1 - tauxRec);
+  const penalites  = impayes * 0.13 * delai / 365;
+  const recuperable= impayes * 0.73;
+  const roi        = Math.round(recuperable / 149);
+
+  document.getElementById('r-impayes').textContent    = fmt(impayes);
+  document.getElementById('r-perte').textContent      = fmt(perte);
+  document.getElementById('r-penalites').textContent  = fmt(penalites);
+  document.getElementById('r-recuperable').textContent= fmt(recuperable);
+  document.getElementById('r-roi').textContent        = roi + 'x';
+}
+
+function submitLead(){
+  const email   = document.getElementById('lead-email').value;
+  const nom     = document.getElementById('lead-nom').value;
+  const societe = document.getElementById('lead-societe').value;
+  const ca      = document.getElementById('lead-ca').value;
+
+  if (!email){ alert('Entrez votre email'); return; }
+
+  // Envoie vers l'API Streamlit (si disponible)
+  fetch('http://localhost:8502/', { method:'GET', mode:'no-cors' }).catch(()=>{});
+
+  // Sauvegarde locale (simulation)
+  const leads = JSON.parse(localStorage.getItem('ig_leads')||'[]');
+  leads.push({ email, nom, societe, ca, date: new Date().toISOString() });
+  localStorage.setItem('ig_leads', JSON.stringify(leads));
+
+  document.getElementById('form-ok').style.display = 'block';
+  document.querySelector('.form-submit').style.display = 'none';
+
+  // Génère un faux téléchargement du guide
+  setTimeout(()=>{
+    window.open('http://localhost:8502', '_blank');
+  }, 1500);
+}
+
+updateCalc();
+</script>
+</body>
+</html>
