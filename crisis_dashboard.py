@@ -10,8 +10,16 @@ try:
 except ImportError:
     genai = None
 
-# Chargement de la clé API
-load_dotenv("../worldmonitor_test/.env")
+# Chargement de la clé API : Streamlit Cloud (st.secrets) en priorité, sinon .env local
+try:
+    if "GEMINI_API_KEY" in st.secrets:
+        os.environ["GEMINI_API_KEY"] = str(st.secrets["GEMINI_API_KEY"])
+except Exception:
+    pass
+
+if "GEMINI_API_KEY" not in os.environ:
+    load_dotenv("../worldmonitor_test/.env")
+
 api_key = os.environ.get("GEMINI_API_KEY")
 
 st.set_page_config(page_title="Nexus AI - SaaS Logistique", page_icon="🛡️", layout="wide")
@@ -38,7 +46,7 @@ if not verify_license(license_key):
     st.markdown("""
     <div class="paywall">
         <h2>🔒 Logiciel Verrouillé</h2>
-        <p>Achetez un accès à 49€ pour débloquer l'Intelligence Artificielle et analyser vos fichiers Excel.</p>
+        <p>Abonnez-vous à 49€/mois (résiliable à tout moment) pour débloquer l'Intelligence Artificielle et analyser vos fichiers Excel.</p>
         <a href="https://buy.stripe.com/8x2aEX6AU1Dt8Qldh387K00" target="_blank" style="background-color: #635bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Payer de manière sécurisée avec Stripe</a>
         <p style="font-size: 12px; margin-top: 15px; color: gray;">Mot de passe VIP (après achat) : NEXUS-PRO-2026</p>
     </div>
@@ -55,8 +63,9 @@ st.divider()
 # Alerte Worldmonitor en direct
 st.markdown("""
 <div class="alert-box">
-    <h4 style="margin-top:0; color:white;">🚨 ALERTE OSINT EN COURS : DÉTROIT DE MALACCA</h4>
-    Trafic maritime paralysé. Risque élevé de blocage prolongé pour les flux Asie-Europe.
+    <h4 style="margin-top:0; color:white;">🚨 ALERTE OSINT EN COURS : DÉTROIT D'ORMUZ & MER ROUGE</h4>
+    Posture "Élevée" sur Mer Rouge/Yémen et Mer de Chine méridionale. Brouillage GPS actif en Mer Noire, Baltique et Golfe Persique.
+    Arrêt de l'oléoduc Est-Ouest saoudien. Probabilité de perturbation du trafic Détroit d'Ormuz : 35-40% (marché). Risque élevé de surcoût fret et délais pour les flux Asie/Moyen-Orient-Europe.
 </div>
 """, unsafe_allow_html=True)
 
@@ -100,9 +109,10 @@ else:
                     
                     prompt = f"""
                     Tu es une IA de crise Supply Chain (SaaS).
-                    Une crise paralyse le détroit de Malacca. Voici les données extraites du fichier Excel du client :
+                    Contexte de crise actuel : posture "Élevée" sur Mer Rouge/Yémen et Mer de Chine méridionale, brouillage GPS en Mer Noire/Baltique/Golfe Persique,
+                    arrêt de l'oléoduc Est-Ouest saoudien, et probabilité de 35-40% de perturbation du trafic au Détroit d'Ormuz. Voici les données extraites du fichier Excel du client :
                     {df.to_json()}
-                    
+
                     Rédige un plan de sauvetage (Contingency Plan) direct et professionnel.
                     Trouve des fournisseurs alternatifs fictifs mais réalistes en Europe/US pour remplacer ces marchandises, estime le surcoût de fret aérien, et donne une marche à suivre claire.
                     """
