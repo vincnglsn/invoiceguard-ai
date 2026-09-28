@@ -73,7 +73,7 @@ if uploaded_file is not None:
                     <div class="upsell-box">
                         <h3 style="color: #ff4b4b; margin-top:0;">🛑 Votre Supply Chain ne survivra pas au prochain choc.</h3>
                         <p style="font-size: 16px;">Ne restez pas dans cette situation. Notre Bouclier IA analyse le marché mondial et vous génère instantanément un plan de secours avec des fournisseurs alternatifs locaux.</p>
-                        <a href="https://buy.stripe.com/8x2aEX6AU1Dt8Qldh387K00" target="_blank" class="upsell-btn">🛡️ Sécuriser ma Supply Chain maintenant (49€)</a>
+                        <a href="https://buy.stripe.com/cNi6oHcZifuj3w14Kx87K04" target="_blank" class="upsell-btn">🛡️ Sécuriser ma Supply Chain maintenant (49€)</a>
                     </div>
                     """, unsafe_allow_html=True)
                     
