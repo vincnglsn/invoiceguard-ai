@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus AI Group — Suite IA B2B pour PME françaises</title>
+<meta name="description" content="La suite IA B2B qui protège les PME françaises : recouvrez vos impayés et blindez votre supply chain contre les risques géopolitiques.">
+<style>
+:root{--bg:#060B14;--bg2:#0A0F1E;--bg3:#111827;--border:#1F2937;--text:#F9FAFB;--muted:#9CA3AF;--ig:#00D4AA;--ns:#F59E0B;--purple:#8B5CF6}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+a{text-decoration:none}
+
+nav{position:sticky;top:0;z-index:100;background:rgba(6,11,20,.95);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);padding:.9rem 2rem;
+  display:flex;justify-content:space-between;align-items:center}
+.nav-logo{font-size:1.1rem;font-weight:900;color:var(--text)}
+.nav-logo span{color:var(--ig)}
+.nav-links{display:flex;gap:1.5rem;align-items:center}
+.nav-links a{color:var(--muted);font-size:.9rem;transition:color .2s}
+.nav-links a:hover{color:var(--ig)}
+.nav-cta{background:var(--ig);color:#000;font-weight:700;padding:.5rem 1.2rem;border-radius:8px;font-size:.85rem}
+.nav-cta:hover{opacity:.9}
+
+.hero{max-width:960px;margin:0 auto;padding:7rem 2rem 5rem;text-align:center}
+.tag{display:inline-block;background:linear-gradient(135deg,#00D4AA22,#8B5CF622);
+  border:1px solid var(--ig);border-radius:99px;padding:.4rem 1.2rem;
+  font-size:.8rem;font-weight:700;color:var(--ig);margin-bottom:1.5rem;letter-spacing:.05em}
+h1{font-size:clamp(2rem,5vw,3.6rem);font-weight:900;line-height:1.1;margin-bottom:1.2rem}
+h1 .ig{color:var(--ig)}
+h1 .ns{color:var(--ns)}
+.hero-sub{font-size:1.1rem;color:var(--muted);max-width:640px;margin:0 auto 2.5rem}
+
+.products-grid{max-width:1100px;margin:0 auto;padding:0 2rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+@media(max-width:700px){.products-grid{grid-template-columns:1fr}}
+
+.product-card{border-radius:20px;padding:2.5rem;position:relative;overflow:hidden}
+.product-card.ig{background:linear-gradient(135deg,#00D4AA0A,#111827);border:1.5px solid var(--ig)}
+.product-card.ns{background:linear-gradient(135deg,#F59E0B0A,#111827);border:1.5px solid var(--ns)}
+.prod-icon{font-size:2.5rem;margin-bottom:1rem}
+.prod-tag{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.8rem}
+.prod-tag.ig{color:var(--ig)}
+.prod-tag.ns{color:var(--ns)}
+.prod-title{font-size:1.6rem;font-weight:900;margin-bottom:.6rem}
+.prod-desc{color:var(--muted);font-size:.9rem;margin-bottom:1.5rem;line-height:1.7}
+.prod-features{list-style:none;margin-bottom:1.8rem}
+.prod-features li{font-size:.85rem;padding:.35rem 0;border-bottom:1px solid var(--border);color:var(--text)}
+.prod-features li::before{content:"✓ ";font-weight:700}
+.prod-features li.ig::before{color:var(--ig)}
+.prod-features li.ns::before{color:var(--ns)}
+.prod-price{font-size:.85rem;color:var(--muted);margin-bottom:1rem}
+.prod-price strong{font-size:1.6rem;color:var(--text);font-weight:900}
+.btn{display:block;text-align:center;padding:.9rem;border-radius:10px;font-weight:700;font-size:.95rem;transition:all .2s}
+.btn-ig{background:var(--ig);color:#000}
+.btn-ig:hover{opacity:.9;transform:translateY(-1px)}
+.btn-ns{background:var(--ns);color:#000}
+.btn-ns:hover{opacity:.9;transform:translateY(-1px)}
+
+.bundle-section{max-width:900px;margin:5rem auto;padding:0 2rem}
+.bundle-card{background:linear-gradient(135deg,#00D4AA08,#F59E0B08);
+  border:1.5px solid var(--purple);border-radius:20px;padding:2.5rem;text-align:center}
+.bundle-badge{display:inline-block;background:var(--purple);color:#fff;font-size:.75rem;
+  font-weight:700;padding:.3rem .9rem;border-radius:99px;margin-bottom:1rem}
+.bundle-title{font-size:1.8rem;font-weight:900;margin-bottom:.6rem}
+.bundle-sub{color:var(--muted);margin-bottom:1.5rem}
+.bundle-price{font-size:3rem;font-weight:900;color:var(--purple);margin-bottom:.4rem}
+.bundle-save{color:var(--ig);font-weight:700;font-size:.9rem;margin-bottom:1.5rem}
+.bundle-features{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;
+  text-align:left;max-width:500px;margin:0 auto 2rem}
+.bundle-features span{font-size:.85rem;padding:.3rem 0}
+.bundle-features span::before{content:"✓ ";color:var(--purple);font-weight:700}
+.btn-bundle{display:inline-block;background:var(--purple);color:#fff;
+  padding:.9rem 2.5rem;border-radius:10px;font-weight:700}
+.btn-bundle:hover{opacity:.9}
+
+.why-section{max-width:1000px;margin:5rem auto;padding:0 2rem;text-align:center}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;margin-top:2.5rem}
+.why-card{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:1.8rem}
+.why-icon{font-size:2rem;margin-bottom:.8rem}
+.why-title{font-weight:700;margin-bottom:.5rem;font-size:1rem}
+.why-desc{font-size:.85rem;color:var(--muted)}
+
+.ec-section{background:var(--bg3);border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);padding:4rem 2rem;margin:5rem 0}
+.ec-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+@media(max-width:640px){.ec-inner{grid-template-columns:1fr}}
+.ec-title{font-size:1.6rem;font-weight:900;margin-bottom:1rem}
+.ec-desc{color:var(--muted);margin-bottom:1.5rem;line-height:1.7}
+.ec-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.ec-table th{background:#1F2937;padding:.6rem 1rem;text-align:left;font-weight:700;color:var(--muted)}
+.ec-table td{padding:.6rem 1rem;border-bottom:1px solid var(--border)}
+.ec-table td:last-child{color:var(--ig);font-weight:700}
+
+.section-title{font-size:clamp(1.5rem,3vw,2rem);font-weight:900;margin-bottom:.6rem}
+.section-tag{color:var(--ig);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}
+.section-sub{color:var(--muted);margin-bottom:2rem}
+
+footer{max-width:1100px;margin:0 auto;padding:3rem 2rem;
+  display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid var(--border);flex-wrap:wrap;gap:1rem}
+.footer-logo{font-size:.95rem;font-weight:900}
+.footer-logo span{color:var(--ig)}
+.footer-links{display:flex;gap:1.5rem}
+.footer-links a{color:var(--muted);font-size:.82rem}
+.footer-links a:hover{color:var(--ig)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">🏛️ Nexus AI <span>Group</span></div>
+  <div class="nav-links">
+    <a href="#products">Produits</a>
+    <a href="#bundle">Bundle</a>
+    <a href="#ec">Partenaires EC</a>
+    <a href="http://localhost:8502" class="nav-cta" target="_blank">Essai gratuit</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="tag">🇫🇷 Suite IA B2B — Made in France</div>
+  <h1>Protégez votre PME<br>avec <span class="ig">l'IA financière</span><br>et <span class="ns">l'IA géopolitique</span></h1>
+  <p class="hero-sub">
+    InvoiceGuard récupère vos impayés automatiquement.<br>
+    Nexus AI blinde votre supply chain contre les crises mondiales.<br>
+    Ensemble, ils rendent votre PME <strong>indestructible</strong>.
+  </p>
+</section>
+
+<section class="products-grid" id="products">
+  <!-- InvoiceGuard -->
+  <div class="product-card ig">
+    <div class="prod-icon">🛡️</div>
+    <div class="prod-tag ig">InvoiceGuard AI</div>
+    <div class="prod-title">Recouvrement automatique d'impayés</div>
+    <p class="prod-desc">L'IA analyse chaque débiteur, génère la relance parfaite en 4 secondes, conforme Loi LME. -40% de DSO en 60 jours.</p>
+    <ul class="prod-features">
+      <li class="ig">Relances IA personnalisées (4 tons)</li>
+      <li class="ig">Score de risque 0-100 par facture</li>
+      <li class="ig">Pénalités LME automatiques</li>
+      <li class="ig">Rapport PDF Expert-Comptable</li>
+      <li class="ig">Campagnes en masse illimitées</li>
+    </ul>
+    <div class="prod-price">À partir de <strong>49€</strong>/mois</div>
+    <a href="http://localhost:8502" class="btn btn-ig" target="_blank">Essai gratuit 14 jours →</a>
+  </div>
+
+  <!-- Nexus AI -->
+  <div class="product-card ns">
+    <div class="prod-icon">⚠️</div>
+    <div class="prod-tag ns">Nexus AI Supply Chain</div>
+    <div class="prod-title">Intelligence géopolitique pour l'import/export</div>
+    <p class="prod-desc">Croisez vos fournisseurs avec les alertes mondiales en direct. Détectez vos expositions avant la crise. Générez votre plan de continuité en 2 minutes.</p>
+    <ul class="prod-features">
+      <li class="ns">Score d'exposition géopolitique</li>
+      <li class="ns">Alertes Mer Rouge, Ormuz, Kertch</li>
+      <li class="ns">Plan de continuité IA (fournisseurs alternatifs)</li>
+      <li class="ns">Surcoût fret estimé automatiquement</li>
+      <li class="ns">Données WorldMonitor temps réel</li>
+    </ul>
+    <div class="prod-price">À partir de <strong>49€</strong>/mois</div>
+    <a href="https://nexus-ai-empire-6yrflyffrz2l6jxaxtk9gf.streamlit.app" class="btn btn-ns" target="_blank">Accéder au dashboard →</a>
+  </div>
+</section>
+
+<section class="bundle-section" id="bundle">
+  <div class="bundle-card">
+    <div class="bundle-badge">⭐ Offre la plus populaire</div>
+    <div class="bundle-title">Bundle Pro — Les deux produits</div>
+    <div class="bundle-sub">InvoiceGuard Pro + Nexus AI Pro — économisez 16%</div>
+    <div class="bundle-price">249€<small style="font-size:1rem;font-weight:400;color:var(--muted)">/mois</small></div>
+    <div class="bundle-save">Économie de 49€/mois vs les abonnements séparés</div>
+    <div class="bundle-features">
+      <span>Factures illimitées</span>
+      <span>Email + SMS</span>
+      <span>Campagnes en masse</span>
+      <span>Score géopolitique</span>
+      <span>Plan de continuité IA</span>
+      <span>Rapport PDF mensuel</span>
+      <span>Dashboard CFO unifié</span>
+      <span>Support prioritaire</span>
+    </div>
+    <a href="http://localhost:8507" class="btn-bundle" target="_blank">Souscrire au bundle →</a>
+    <p style="font-size:.8rem;color:var(--muted);margin-top:1rem">14 jours gratuits · Sans engagement · Résiliable à tout moment</p>
+  </div>
+</section>
+
+<section class="why-section">
+  <div class="section-tag">Pourquoi Nexus AI Group</div>
+  <h2 class="section-title">Conçu pour la PME française exposée</h2>
+  <p class="section-sub">Les deux risques les plus coûteux pour une PME importatrice : les impayés et les ruptures supply chain.</p>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">⚡</div>
+      <div class="why-title">Déployé en 5 minutes</div>
+      <div class="why-desc">CSV de factures ou liste fournisseurs → résultats immédiats. Aucune intégration complexe.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🧠</div>
+      <div class="why-title">IA Gemini 2.5 Flash</div>
+      <div class="why-desc">Le même modèle utilisé par Google. Adapté au contexte B2B français et aux réglementations LME.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">⚖️</div>
+      <div class="why-title">100% conforme</div>
+      <div class="why-desc">Loi LME, RGPD, facturation électronique obligatoire 2026. Mentions légales et CGV incluses.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🇫🇷</div>
+      <div class="why-title">Made in France</div>
+      <div class="why-desc">Support en français, données hébergées en Europe, tarifs en euros.</div>
+    </div>
+  </div>
+</section>
+
+<div class="ec-section" id="ec">
+  <div class="ec-inner">
+    <div>
+      <div class="section-tag">Programme partenaire</div>
+      <h2 class="ec-title">Experts-Comptables : 20% de commission récurrente</h2>
+      <p class="ec-desc">
+        Recommandez Nexus AI Group à vos clients PME et percevez une commission mensuelle à vie.
+        Aucun effort commercial de votre part — vous apportez de la valeur, nous gérons le reste.
+      </p>
+      <a href="http://localhost:8506" style="background:var(--ig);color:#000;font-weight:700;
+        padding:.8rem 1.8rem;border-radius:8px;display:inline-block" target="_blank">
+        Accéder à l'espace partenaire →
+      </a>
+    </div>
+    <div>
+      <table class="ec-table">
+        <tr><th>Produit</th><th>Prix client</th><th>Votre commission</th></tr>
+        <tr><td>InvoiceGuard Pro</td><td>149€/mois</td><td>29,80€/mois</td></tr>
+        <tr><td>Nexus AI Pro</td><td>149€/mois</td><td>29,80€/mois</td></tr>
+        <tr><td>Bundle Pro</td><td>249€/mois</td><td>49,80€/mois</td></tr>
+      </table>
+      <p style="font-size:.8rem;color:var(--muted);margin-top:.8rem">
+        Exemple : 10 clients Bundle Pro = <strong style="color:var(--ig)">498€/mois passifs</strong> pour votre cabinet.
+      </p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">🏛️ Nexus AI <span>Group</span></div>
+  <div class="footer-links">
+    <a href="http://localhost:8502" target="_blank">InvoiceGuard AI</a>
+    <a href="https://nexus-ai-empire-6yrflyffrz2l6jxaxtk9gf.streamlit.app" target="_blank">Nexus AI Supply</a>
+    <a href="http://localhost:8506" target="_blank">Espace EC</a>
+    <a href="http://localhost:8513" target="_blank">Mentions légales</a>
+    <a href="mailto:hello@invoiceguard.fr">Contact</a>
+  </div>
+  <div style="font-size:.78rem;color:var(--muted)">🇫🇷 Made in France · © 2026 Nexus AI Group</div>
+</footer>
+
+</body>
+</html>
